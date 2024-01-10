@@ -1,11 +1,38 @@
-import Card from "./components/Card";
+import { useState } from "react";
+import Button from "./components/Button";
+import Screen from "./components/Screen";
+import "./styles/global.css";
+import { numberButtons, operatorButtons } from "./utils/constants";
 
 export default function App() {
+  const [screenVal, setScreenVal] = useState("1");
+  // const [count, setCount] = useState(0);
+
+  // setCount((b)=>b+1)
+  // setCount(count + 1)
+
+  function changeScreenVal(val) {
+    setScreenVal(screenVal + val);
+  }
   return (
-    <div>
-      <p>Hello World</p>
-      <Card />
-      <img src="https://hips.hearstapps.com/hmg-prod/images/dog-puppy-on-garden-royalty-free-image-1586966191.jpg?crop=0.752xw:1.00xh;0.175xw,0&resize=1200:*" />
+    <div className="mainCalc">
+      <Screen value={screenVal} />
+      <div className="buttons">
+        <div className="numbers">
+          {numberButtons.map((val, index) => {
+            return (
+              <Button key={index} value={val} setScreenVal={setScreenVal} />
+            );
+          })}
+        </div>
+        <div className="operators">
+          {operatorButtons.map((val, index) => {
+            return (
+              <Button key={index} value={val} setScreenVal={setScreenVal} />
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }
