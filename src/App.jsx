@@ -1,36 +1,57 @@
 import { useState } from "react";
 import Button from "./components/Button";
+import ButtonOp from "./components/ButtonOp";
 import Screen from "./components/Screen";
 import "./styles/global.css";
 import { numberButtons, operatorButtons } from "./utils/constants";
 
 export default function App() {
-  const [screenVal, setScreenVal] = useState("1");
-  // const [count, setCount] = useState(0);
+  const [currentSceen, setCurrentSceen] = useState("");
+  const [prevScreen, setPrevScreen] = useState("");
+  const [todoOp, setTodoOp] = useState("");
 
-  // setCount((b)=>b+1)
-  // setCount(count + 1)
+  function changeTodoOp(val) {
+    setTodoOp(val);
+    setPrevScreen(currentSceen);
+    setCurrentSceen("");
+  }
+  function equalHandler() {
+    if (todoOp == "+") {
+      const result = Number(prevScreen) + Number(currentSceen) + "";
+      setCurrentSceen(result);
+    }
+  }
 
   function changeScreenVal(val) {
-    setScreenVal(screenVal + val);
+    setCurrentSceen(currentSceen + val);
   }
+
   return (
     <div className="mainCalc">
-      <Screen value={screenVal} />
+      <Screen value={currentSceen} />
       <div className="buttons">
         <div className="numbers">
           {numberButtons.map((val, index) => {
             return (
-              <Button key={index} value={val} setScreenVal={setScreenVal} />
+              <Button
+                key={index}
+                value={val}
+                changeScreenVal={changeScreenVal}
+              />
             );
           })}
         </div>
         <div className="operators">
           {operatorButtons.map((val, index) => {
             return (
-              <Button key={index} value={val} setScreenVal={setScreenVal} />
+              <ButtonOp key={index} value={val} changeTodoOp={changeTodoOp} />
             );
           })}
+        </div>
+        <div>
+          <button className="btn" onClick={equalHandler}>
+            =
+          </button>
         </div>
       </div>
     </div>
